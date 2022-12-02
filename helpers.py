@@ -13,6 +13,12 @@ class Response(Enum):
     Y = "paper"
     Z = "scissors"
 
+class Outcome(Enum):
+    X = "lose"
+    Y = "draw"
+    Z = "win"
+
+
 
 def sort_dict_by_value(x: Dict) -> Dict:
     return {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
@@ -63,4 +69,28 @@ def play_round(_round: Tuple[Enum, Enum]) -> int:
     opponent = _round[0]
     response = _round[1]
     points = RPS[response.value][opponent.value] + RPS[response.value]["worth"]
+    return points
+
+def play_round_outcome(_round: Tuple[Enum, Enum]) -> int:
+    RPS = {
+        "rock": {
+            "win": 6 + 2, # we are paper (2 points)
+            "lose": 3, # we are scissors (3 points)
+            "draw": 3 + 1 # we are rock (1 points)
+        },
+        "paper": {
+            "win": 6 + 3, # we are scissors (3 points)
+            "lose": 1, # we are rock (1 points)
+            "draw": 3 + 2, # we are paper (2 points)
+        },
+        "scissors": {
+            "win": 6 + 1, # we are rock (1 points)
+            "lose": 2, # we are paper (2 points)
+            "draw": 3 + 3, # we are scissors (3 points)
+        },
+    }
+
+    opponent = _round[0]
+    outcome = _round[1]
+    points = RPS[opponent.value][outcome.value]
     return points
