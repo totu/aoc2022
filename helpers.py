@@ -1,5 +1,5 @@
 from typing import Optional, Dict, List, Tuple
-from enum import Enum, auto
+from enum import Enum
 
 
 class Opponent(Enum):
