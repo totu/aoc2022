@@ -10,17 +10,13 @@ if __name__ == "__main__":
 
     total_priority = 0
 
-    for rucksack in rucksacks:
-        # Split pockets
-        item_count = len(rucksack)
-        pocket1 = rucksack[:item_count//2]
-        pocket2 = rucksack[item_count//2:]
-        assert rucksack == pocket1 + pocket2, "wat"
-
-        # Go through pockets
+    for index in range(0, len(rucksacks), 3):
+        rucksack1 = rucksacks[index]
+        rucksack2 = rucksacks[index + 1]
+        rucksack3 = rucksacks[index + 2]
         thing = str()
-        for thing in pocket1:
-            if thing in pocket2:
+        for thing in rucksack1:
+            if thing in rucksack2 and thing in rucksack3:
                 break
 
         # Calculate priority on item
@@ -28,4 +24,3 @@ if __name__ == "__main__":
         total_priority += priority
 
     print(total_priority)
-
