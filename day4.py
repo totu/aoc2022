@@ -12,9 +12,13 @@ if __name__ == "__main__":
         first = [x for x in map(int, first.split("-"))]
         second = [x for x in map(int, second.split("-"))]
 
-        if first[0] >= second[0] and first[1] <= second[1] or second[0] >= first[0] and second[1] <= first[1]:
-            print(first, second)
+        # find possible intersection points
+        starting_section = max(first[0], second[0])
+        ending_section = min(first[1], second[1])
+        # run points through range() and see if we get something (negative ranges don't have lenght)
+        # also add +1 to ending_section since range it exclusive on the end
+        over_laps = len(range(starting_section, ending_section + 1))
+        if over_laps:
             total_fully_contained_sections += 1
 
     print(total_fully_contained_sections)
-
