@@ -156,12 +156,15 @@ def get_top_crates(stacks: Dict) -> str:
     return top
 
 
-def parse_top_crates(file_name: str) -> str:
+def parse_top_crates(file_name: str, retain_order: Optional[bool]=False) -> str:
     stacks = parse_stacks(file_name)
     instructions = parse_move_instructions(file_name)
     for instruction in instructions:
         amount, _from, to = instruction
-        stacks[to] = list(reversed(stacks[_from][:amount])) + stacks[to]
+        moving_crates = stacks[_from][:amount]
+        if not retain_order:
+            moving_crates = reversed(moving_crates)
+        stacks[to] = list(moving_crates) + stacks[to]
         stacks[_from] = stacks[_from][amount:]
 
     return get_top_crates(stacks)

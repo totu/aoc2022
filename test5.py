@@ -59,21 +59,9 @@ def test_reading_top_crates(stacks):
     assert top_crates == "NDP"
 
 
-def test_verify_example_input(stacks):
-    instructions = parse_move_instructions("day5_test.input")
-    for instruction in instructions:
-        amount, _from, to = instruction
-        stacks[to] = list(reversed(stacks[_from][:amount])) + stacks[to]
-        stacks[_from] = stacks[_from][amount:]
-
-    expected_stacks = {
-        0: ["C"],
-        1: ["M"],
-        2: ["Z", "N", "D", "P"],
-    }
-
-    assert expected_stacks == stacks
-
-
 def test_parse_top_crates():
     assert "CMZ" == parse_top_crates("day5_test.input")
+
+
+def test_parse_top_crates_with_cratemover_9001():
+    assert "MCD" == parse_top_crates("day5_test.input", retain_order=True)
