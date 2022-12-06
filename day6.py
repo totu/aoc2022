@@ -12,7 +12,7 @@ if __name__ == "__main__":
     file_name = "day6.input"
     with open(file_name, "r") as input_file:
         for row in input_file.readlines():
-            buffer = row[0:4]
+            buffer = row[0:14]
             for index, char in enumerate(row):
                 if check_buffer(buffer):
                     print(index)
