@@ -14,10 +14,7 @@ dir e
 62596 h.lst
 $ cd e
 $ ls
-dir x
 584 i
-$ cd x
-$ ls x
 $ cd ..
 $ cd ..
 $ cd d

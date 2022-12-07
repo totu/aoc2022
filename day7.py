@@ -55,9 +55,18 @@ if __name__ == "__main__":
                 dirs[parent]["sub_dirs"].append(full_path)
 
     total_size = 0
+    folder_sizes = []
     for _dir in dirs:
         size = calc_size(dirs, _dir)
+        folder_sizes.append((size, _dir))
         if size <= 100_000:
             total_size += size
+    print(f"part1: {total_size}")
 
-    print(total_size)
+    actual_size_on_disc = calc_size(dirs, "/")
+    fs_size = 70000000
+    space_needed_for_update = 30000000
+    # print(fs_size - actual_size_on_disc < space_needed_for_update)
+    space_needed = space_needed_for_update - (fs_size - actual_size_on_disc)
+    folder_sizes = [x for x in sorted(folder_sizes) if int(x[0]) >= space_needed]
+    print(f"part2: {folder_sizes[0][0]}")
