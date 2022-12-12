@@ -12,6 +12,7 @@ class Monkey:
         test: str,
         if_true: int,
         if_false: int,
+        relief: int,
     ):
         self.id = _id
         self.items = items
@@ -19,13 +20,14 @@ class Monkey:
         self.test = test
         self.if_true = if_true
         self.if_false = if_false
+        self.relief = relief
         self.inspected_items = 0
 
     def inspect(self, item: int) -> int:
         """Monkey inspects item and returns worry level"""
         self.inspected_items += 1
         return math.floor(
-            int(eval(self.op.replace("old", str(item)).replace("new =", ""))) / 3
+            float(eval(self.op.replace("old", str(item)).replace("new =", ""))) / self.relief
         )
 
     def check(self, worry_level: int) -> bool:
@@ -38,7 +40,7 @@ class Monkey:
         self.items.append(item)
 
 
-def parse_monkies(file_name: str) -> list[Monkey]:
+def parse_monkies(file_name: str, relief: int = 3) -> list[Monkey]:
     monkies: list[Monkey] = []
     with open(file_name, "r") as input_file:
         while True:
@@ -61,7 +63,7 @@ def parse_monkies(file_name: str) -> list[Monkey]:
             if_false: int = int(
                 input_file.readline().split("If false:")[1].strip().split(" ")[-1]
             )
-            monkey = Monkey(len(monkies), items, operation, test, if_true, if_false)
+            monkey = Monkey(len(monkies), items, operation, test, if_true, if_false, relief)
             monkies.append(monkey)
             # Read out the line break
             input_file.readline()
@@ -69,15 +71,9 @@ def parse_monkies(file_name: str) -> list[Monkey]:
     return monkies
 
 
-if __name__ == "__main__":
-    # file_name = "day11_test.input"
-    file_name = "day11.input"
-    monkies = parse_monkies(file_name)
-
-    rounds = 20
-    for _ in range(20):
+def play_x_rounds(monkies: list[Monkey], rounds: int) -> int:
+    for _ in range(rounds):
         for monkey in monkies:
-            # print(monkey)
             items = copy.deepcopy(monkey.items)
             monkey.items = []
             for item in items:
@@ -94,5 +90,15 @@ if __name__ == "__main__":
         items_inspected.append(monkey.inspected_items)
 
     items_inspected = sorted(items_inspected, reverse=True)[:2]
-    monkey_business_level = items_inspected[0] * items_inspected[1]
-    print(monkey_business_level)
+    monkey_business_level = int(items_inspected[0] * items_inspected[1])
+    return monkey_business_level
+
+if __name__ == "__main__":
+    # file_name = "day11_test.input"
+    file_name = "day11.input"
+    monkies = parse_monkies(file_name)
+    part1 = play_x_rounds(monkies, rounds=20)
+    print(part1)
+    monkies = parse_monkies(file_name, relief=1)
+    part2 = play_x_rounds(monkies, rounds=10_000)
+    print(part2)
